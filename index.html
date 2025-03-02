@@ -1,203 +1,104 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azienda Montaggio Infissi e Porte</title>
+    <title>Gestione Carico Container</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <style>
-        /* Stili globali */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header, section, footer {
-            padding: 2rem;
-            text-align: center;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-        }
-        h1 { font-size: 2.5rem; margin: 0; }
-        h2 { font-size: 2rem; margin-bottom: 1rem; }
-
-        /* Stili carosello */
-        .carousel-container {
+        /* Style to ensure OrbitControls are properly sized.
+       Important: This style is only necessary if you are not using a CSS file. */
+        #container3D {
             width: 100%;
-            max-width: 1200px;
             height: 600px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-        }
-        .carousel-slide {
-            display: none;
-            width: 100%;
-            height: 100%;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        .active { display: block; }
-
-        /* Stili form di contatto */
-        #contact-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        #contact-form input,
-        #contact-form textarea {
-            width: 100%;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #contact-form button {
-            background-color: #ff7b00;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 5px;
-            margin-top: 1rem;
-            cursor: pointer;
-        }
-        #success-message {
-            color: green;
-            display: none;
-        }
-
-        /* Stili footer */
-        footer {
-            background-color: #333;
-            color: white;
-        }
-        footer a {
-            color: #ff7b00;
-            text-decoration: none;
+            /* Adjust as needed */
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <h1>PortaPlus Infissi e Ristrutturazioni</h1>
-	    <img src="images/logo.jpg" alt="Logo PortaPlus" style="max-width: 150px; margin-top: 20px;">
-        <p>Esperienza, qualità e professionalità al tuo servizio</p>
-    </header>
+    <div class="container">
+        <h1>Gestione Carico Container</h1>
 
-    <section id="services">
-        <h2>I nostri servizi</h2>
-        <p>Offriamo installazione di infissi e porte di ogni tipo: PVC, legno, alluminio e molto altro.</p>
-    </section>
+        <div id="palletList">
+            <h2>Bancali Aggiunti</h2>
+            <ul id="bancaliList"></ul>
+        </div>
 
-    <section id="gallery">
-        <h2>Galleria dei lavori</h2>
-        <div class="carousel-container">
-            <div class="carousel-slide">
-                <img src="images/1.jpeg" alt="Lavoro 1">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/2.jpeg" alt="Lavoro 2">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/3.jpeg" alt="Lavoro 3">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/4.jpeg" alt="Lavoro 4">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/5.jpeg" alt="Lavoro 5">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/6.jpeg" alt="Lavoro 6">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/7.jpeg" alt="Lavoro 7">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/8.jpeg" alt="Lavoro 8">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/9.jpeg" alt="Lavoro 9">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/10.jpeg" alt="Lavoro 10">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/11.jpeg" alt="Lavoro 11">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/12.jpeg" alt="Lavoro 12">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/13.jpeg" alt="Lavoro 13">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/14.jpeg" alt="Lavoro 14">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/15.jpeg" alt="Lavoro 15">
-            </div>
-            <div class="carousel-slide">
-                <img src="images/16.jpeg" alt="Lavoro 16">
+        <div id="containerVisualization">
+            <div id="container3DContainer">
+                <div id="container3D"></div>
+                <div id="zoomControls">
+                    <button id="zoomIn">+</button>
+                    <button id="zoomOut">-</button>
+                </div>
+                <button id="calculateSpace">Calcola Spazio</button>
+                <button id="fullscreenButton">Schermo Intero</button>
             </div>
         </div>
-    </section>
 
-    <section id="contact">
-        <h2>Contattaci</h2>
-        <p>Richiedi un preventivo gratuito per il montaggio di infissi e porte.</p>
-        <form id="contact-form">
-            <input type="text" id="name" name="name" placeholder="Nome" required>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <textarea id="message" name="message" placeholder="Messaggio" required></textarea>
-            <button type="submit">Richiedi un Preventivo Gratuito</button>
-        </form>
-        <p id="success-message">Grazie per averci contattato! Risponderemo al più presto.</p>
-    </section>
+        <div id="mainControls">
+            <div id="palletControls">
+                <h2>Aggiungi Bancale</h2>
+                <form id="palletForm">
+                    <label for="palletType">Tipo Bancale:</label>
+                    <select id="palletType" required>
+                        <option value="standard">Standard</option>
+                        <option value="euro">Euro</option>
+                        <option value="industriale">Industriale</option>
+                    </select>
+                    <label for="palletLength">Lunghezza (cm):</label>
+                    <input type="number" id="palletLength" required>
+                    <label for="palletWidth">Larghezza (cm):</label>
+                    <input type="number" id="palletWidth" required>
+                    <label for="palletHeight">Altezza (cm):</label>
+                    <input type="number" id="palletHeight" required>
+                    <label for="palletWeight">Peso (kg):</label>
+                    <input type="number" id="palletWeight" required>
+                    <!-- Add canStack checkbox -->
+                    <label for="canStack">Sovrapponibile:</label>
+                    <input type="checkbox" id="canStack">
+                    <button type="submit">Aggiungi Bancale</button>
+                </form>
+            </div>
 
-    <footer>
-        <p>© 2024 Azienda Montaggio Infissi e Porte. Tutti i diritti riservati.</p>
-        <p>Email: <a href="mailto:portaplus@info.com">portaplus@info.com</a> | Tel: 0522-845125</p>
-        <p>Seguici su: <a href="#">Facebook</a> | <a href="#">Instagram</a></p>
-		<p>P.IVA: <a href="#">02732310350</a>
-    </footer>
+            <div id="selectedPalletInfo">
+                <h2>Bancale Selezionato</h2>
+                <p>Tipo: <span id="selectedPalletType"></span></p>
+                <p>Lunghezza: <span id="selectedPalletLength"></span> cm</p>
+                <p>Larghezza: <span id="selectedPalletWidth"></span> cm</p>
+                <p>Altezza: <span id="selectedPalletHeight"></span> cm</p>
+                <p>Peso: <span id="selectedPalletWeight"></span> kg</p>
+                <button id="rotatePallet">Ruota</button>
+            </div>
 
-    <script>
-        // Carosello di immagini
-        const slides = document.querySelectorAll('.carousel-slide');
-        let currentSlide = 0;
+            <div id="results">
+                <h2>Risultati</h2>
+                <p>Volume Totale: <span id="totalVolume">0</span> m³</p>
+                <p>Peso Totale: <span id="totalWeight">0</span> kg</p>
+                <p>Spazio Occupato: <span id="spaceUsed">0</span>%</p>
+                <h2>Dati Monitoraggio</h2>
+                <p>Container Width: <span id="containerWidthData">600</span> cm</p>
+                <p>Container Depth: <span id="containerDepthData">240</span> cm</p>
+                <p>Container Height: <span id="containerHeightData">240</span> cm</p>
+                <p>Container Volume: <span id="containerVolumeData">33.196</span> m³</p>
 
-        function showSlide(n) {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (n + slides.length) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
+            </div>
+        </div>
 
-        function nextSlide() {
-            showSlide(currentSlide + 1);
-        }
+        <div id="actions">
+            <button id="optimizeLayout">Ottimizza Layout</button>
+            <button id="saveLayout">Salva Layout</button>
+            <button id="loadLayout">Carica Layout</button>
+            <p id="message"></p>
+        </div>
+    </div>
 
-        // Cambia slide ogni 2 secondi
-        setInterval(nextSlide, 4000);
-
-        // Gestione del form di contatto
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            document.getElementById('success-message').style.display = 'block';
-            this.reset();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>
